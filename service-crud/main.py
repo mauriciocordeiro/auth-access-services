@@ -9,6 +9,7 @@ app.config["MONGO_URI"] = "mongodb://localhost:27017/users"
 
 mongo = PyMongo(app)
 
+
 @app.route('/users', methods=['POST'])
 def add_user():
 	_json = request.json
@@ -20,22 +21,25 @@ def add_user():
 		# save details
 		id = mongo.db.user.insert({'name': _name, 'email': _email, 'pwd': _password})
 		resp = jsonify('User added successfully!')
-		resp.status_code = 200
+		resp.status_code = 201
 		return resp
 	else:
 		return not_found()
 		
+
 @app.route('/users')
 def users():
 	users = mongo.db.user.find()
 	resp = dumps(users)
 	return resp
-		
+
+
 @app.route('/users/<id>')
 def user(id):
 	user = mongo.db.user.find_one({'_id': ObjectId(id)})
 	resp = dumps(user)
 	return resp
+
 
 @app.route('/users/<id>', methods=['PUT'])
 def update_user():
@@ -53,13 +57,15 @@ def update_user():
 		return resp
 	else:
 		return not_found()
-		
+
+
 @app.route('/users/<id>', methods=['DELETE'])
 def delete_user(id):
 	mongo.db.user.delete_one({'_id': ObjectId(id)})
 	resp = jsonify('User deleted successfully!')
 	resp.status_code = 200
 	return resp
+
 		
 @app.errorhandler(404)
 def not_found(error=None):
