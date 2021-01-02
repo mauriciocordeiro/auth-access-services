@@ -20,21 +20,21 @@ def add_user():
 	if _name and _email and _password and request.method == 'POST':
 		# save details
 		id = mongo.db.user.insert({'name': _name, 'email': _email, 'pwd': _password})
-		resp = jsonify('User added successfully!')
+		resp = jsonify({'_id': str(id), 'name': _name, 'email': _email, 'pwd': _password})
 		resp.status_code = 201
 		return resp
 	else:
 		return not_found()
 		
 
-@app.route('/users')
+@app.route('/users', methods=['GET'])
 def users():
 	users = mongo.db.user.find()
 	resp = dumps(users)
 	return resp
 
 
-@app.route('/users/<id>')
+@app.route('/users/<id>', methods=['GET'])
 def user(id):
 	user = mongo.db.user.find_one({'_id': ObjectId(id)})
 	resp = dumps(user)
@@ -66,7 +66,7 @@ def delete_user(id):
 	resp.status_code = 200
 	return resp
 
-		
+
 @app.errorhandler(404)
 def not_found(error=None):
     message = {
