@@ -42,16 +42,15 @@ def user(id):
 
 
 @app.route('/users/<id>', methods=['PUT'])
-def update_user():
+def update_user(id):
 	_json = request.json
-	_id = _json['_id']
 	_name = _json['name']
 	_email = _json['email']
 	_password = _json['pwd']		
 	# validate the received values
 	if _name and _email and _password and _id and request.method == 'PUT':
 		# save edits
-		mongo.db.user.update_one({'_id': ObjectId(_id['$oid']) if '$oid' in _id else ObjectId(_id)}, {'$set': {'name': _name, 'email': _email, 'pwd': _password}})
+		mongo.db.user.update_one({'_id': ObjectId(id), {'$set': {'name': _name, 'email': _email, 'pwd': _password}})
 		resp = jsonify('User updated successfully!')
 		resp.status_code = 200
 		return resp
