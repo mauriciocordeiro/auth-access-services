@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongopwd
+    networks: 
+      - net
+    ports:
+      - 27017:27017
+    volumes: 
+      - data:/data/db
+  crud:
+    container_name: crud-py
+    build: ./service-crud
+    environment:
+      MONGODB_DATABASE: users
+      MONGODB_USERNAME: mongo
+      MONGODB_PASSWORD: mongopwd
+      MONGODB_HOSTNAME: mongo
+    networks:
+      - net
+    ports:
+      - 5000:5000
+networks:
+  net:
+volumes: 
+  data:

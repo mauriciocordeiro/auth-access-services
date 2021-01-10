@@ -1,7 +1,0 @@
-version: "3"
-services: 
-  crud:
-    container_name: crud-service
-    build: .
-    ports:
-      - "5000:5000"

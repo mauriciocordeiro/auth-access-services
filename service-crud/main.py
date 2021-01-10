@@ -1,14 +1,17 @@
+import os
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from flask import jsonify, flash, request, Flask
-from flask_pymongo import PyMongo
+# from flask_pymongo import PyMongo
+from pymongo import MongoClient
 
 app = Flask(__name__)
-app.secret_key = "123456"
-app.config["MONGO_URI"] = "mongodb://localhost:27017/users"
+# app.config["MONGO_URI"] = 'mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.environ['MONGODB_PASSWORD'] + '@' + os.environ['MONGODB_HOSTNAME'] + ':27017/' + os.environ['MONGODB_DATABASE']
 
-mongo = PyMongo(app)
+# mongo = PyMongo(app)
 
+client = MongoClient('mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.environ['MONGODB_PASSWORD'] + '@' + os.environ['MONGODB_HOSTNAME'] + ':27017/' + os.environ['MONGODB_DATABASE'], authSource="admin")
+db = client[os.environ['MONGODB_DATABASE']]
 
 @app.route('/users', methods=['POST'])
 def add_user():
@@ -19,7 +22,7 @@ def add_user():
 	# validate the received values
 	if _name and _email and _password and request.method == 'POST':
 		# save details
-		id = mongo.db.user.insert({'name': _name, 'email': _email, 'pwd': _password})
+		id = db.user.insert({'name': _name, 'email': _email, 'pwd': _password})
 		resp = jsonify({'_id': str(id), 'name': _name, 'email': _email, 'pwd': _password})
 		resp.status_code = 201
 		return resp
@@ -29,14 +32,14 @@ def add_user():
 
 @app.route('/users', methods=['GET'])
 def users():
-	users = mongo.db.user.find()
+	users = db.user.find()
 	resp = dumps(users)
 	return resp
 
 
 @app.route('/users/<id>', methods=['GET'])
 def user(id):
-	user = mongo.db.user.find_one({'_id': ObjectId(id)})
+	user = db.user.find_one({'_id': ObjectId(id)})
 	resp = dumps(user)
 	return resp
 
@@ -50,7 +53,7 @@ def update_user(id):
 	# validate the received values
 	if _name and _email and _password and _id and request.method == 'PUT':
 		# save edits
-		mongo.db.user.update_one({'_id': ObjectId(_id['$oid']) if '$oid' in _id else ObjectId(_id)}, {'$set': {'name': _name, 'email': _email, 'pwd': _password}})
+		db.user.update_one({'_id': ObjectId(_id['$oid']) if '$oid' in _id else ObjectId(_id)}, {'$set': {'name': _name, 'email': _email, 'pwd': _password}})
 		resp = jsonify('User updated successfully!')
 		resp.status_code = 200
 		return resp
@@ -60,8 +63,20 @@ def update_user(id):
 
 @app.route('/users/<id>', methods=['DELETE'])
 def delete_user(id):
-	mongo.db.user.delete_one({'_id': ObjectId(id)})
+	db.user.delete_one({'_id': ObjectId(id)})
 	resp = jsonify('User deleted successfully!')
+	resp.status_code = 200
+	return resp
+
+
+@app.route('/', methods=['GET'])
+def index():
+	message = {
+        'status': 200,
+        'message': 'OK',
+    }
+
+	resp = jsonify(message)
 	resp.status_code = 200
 	return resp
 
