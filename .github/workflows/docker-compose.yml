@@ -22,4 +22,4 @@ jobs:
 
       - uses: docker/build-push-action@v2.2.2
       - name: docker-compose
-        run: docker-compose -f "docker-compose.yml" up --build
+        run: docker-compose -f "../../docker-compose.yml" up --build
