@@ -2,16 +2,16 @@ import os
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from flask import jsonify, flash, request, Flask
-# from flask_pymongo import PyMongo
 from pymongo import MongoClient
+from pymongo.errors import ServerSelectionTimeoutError
+
 
 app = Flask(__name__)
-# app.config["MONGO_URI"] = 'mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.environ['MONGODB_PASSWORD'] + '@' + os.environ['MONGODB_HOSTNAME'] + ':27017/' + os.environ['MONGODB_DATABASE']
 
-# mongo = PyMongo(app)
 
 client = MongoClient('mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.environ['MONGODB_PASSWORD'] + '@' + os.environ['MONGODB_HOSTNAME'] + ':27017/' + os.environ['MONGODB_DATABASE'], authSource="admin")
 db = client[os.environ['MONGODB_DATABASE']]
+
 
 @app.route('/users', methods=['POST'])
 def add_user():
@@ -81,6 +81,38 @@ def index():
 	return resp
 
 
+@app.route('/status/app', methods=['GET'])
+def index():
+	message = {
+        'status': 200,
+        'message': 'OK',
+		'detail': 'Seems fine'
+    }
+
+	resp = jsonify(message)
+	resp.status_code = 200
+	return resp
+
+
+@app.route('/status/db', methods=['GET'])
+def status_db():
+	try: 
+		info = client.server_info()
+		resp = jsonify(info)
+		resp.status_code = 200
+		return resp
+	except ServerSelectionTimeoutError as err:
+		message = {
+			'status': 500,
+			'message': 'Internal Server Error',
+			'detail': str(err)
+		}
+
+		resp = jsonify(message)
+		resp.status_code = 500
+		return resp
+
+
 @app.errorhandler(404)
 def not_found(error=None):
     message = {
@@ -91,6 +123,7 @@ def not_found(error=None):
     resp.status_code = 404
 
     return resp
+
 
 if __name__ == "__main__":
     app.run()
