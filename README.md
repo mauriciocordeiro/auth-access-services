@@ -1,4 +1,6 @@
 # auth-access-services
+
+![docker-compose](https://github.com/mauriciocordeiro/auth-access-services/workflows/docker-compose/badge.svg)
  
 Sistema de autorização baseado em microsserviços. Deve automatizar as seguintes funcionalidades: 
 
