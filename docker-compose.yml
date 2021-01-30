@@ -2,7 +2,7 @@ version: '3.7'
 services:
   mongodb:
     image: mongo:latest
-    container_name: mongo
+    container_name: mongo-auth
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo
       MONGO_INITDB_ROOT_PASSWORD: mongopwd
@@ -19,14 +19,16 @@ services:
       MONGODB_DATABASE: users
       MONGODB_USERNAME: mongo
       MONGODB_PASSWORD: mongopwd
-      MONGODB_HOSTNAME: mongo
+      MONGODB_HOSTNAME: mongo-auth
     networks:
       - net
     ports:
       - 5000:5000
   auth:
     container_name: auth-njs
-    build: ./service-auth
+    # build: ./service-auth
+    build:
+      context: ./service-auth
     environment:
       NODE_ENV: production
     networks: 

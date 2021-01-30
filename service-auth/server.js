@@ -1,4 +1,4 @@
-let express = require('./src/routes/node_modules/express'),
+let express = require('express'),
     mongoose = require('mongoose'),
     cors = require('cors'),
     bodyParser = require('body-parser'),
