@@ -1,5 +1,5 @@
 # service-log
 
-![](https://img.shields.io/badge/java-8-orange)
+![](https://img.shields.io/badge/python-v3.8-blue)
 
 Consulta a log de acessos

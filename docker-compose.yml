@@ -13,7 +13,7 @@ services:
     volumes: 
       - data:/data/db
   crud:
-    container_name: crud-py
+    container_name: crud
     build: ./service-crud
     environment:
       MONGODB_DATABASE: users
@@ -23,18 +23,19 @@ services:
     networks:
       - net
     ports:
-      - 5000:5000
+      - 5001:5001
   auth:
-    container_name: auth-njs
-    # build: ./service-auth
-    build:
-      context: ./service-auth
+    container_name: auth
+    build: ./service-auth
     environment:
-      NODE_ENV: production
-    networks: 
+      MONGODB_DATABASE: users
+      MONGODB_USERNAME: mongo
+      MONGODB_PASSWORD: mongopwd
+      MONGODB_HOSTNAME: mongo-auth
+    networks:
       - net
     ports:
-      - 3000:3000
+      - 5002:5002
 networks:
   net:
 volumes: 
