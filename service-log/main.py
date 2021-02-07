@@ -15,48 +15,25 @@ client = MongoClient('mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.en
 db = client[os.environ['MONGODB_DATABASE']]
 
 
-@app.route('/login', methods=['POST'])
-def login():
+@app.route('/logs', methods=['POST'])
+def add_log():
 	_json = request.json
 	_email = _json['email']
-	_password = _json['pwd']
-
-	status = 401
-	message = {
-        'status': 401,
-        'message': 'Unauthorized',
-		'detail': 'Email ou senha incorretos.'
-    }
-
-	user = db.user.find_one({'email': _email, 'pwd': _password})
-
-	if user != None:
-		message = {
-			'status': 200,
-			'message': 'Ok',
-			'detail': 'Login efetuado.'
-		}	
-		status = 200
-
-	log(_email, 'GET /login')
-
-	resp = jsonify(message)
-	resp.status_code = status
+	_timestamp = _json['timestamp']
+	_action = _json['action']
+	
+	id = db.log.insert({'email': _email, 'timestamp': _timestamp, 'action': _action})
+	resp = jsonify({'_id': str(id), 'email': _email, 'timestamp': _timestamp, 'action': _action})
+	resp.status_code = 201
 	return resp
 
 
-@app.route('/logout', methods=['POST'])
-def logout():
-	message = {
-        'status': 200,
-        'message': 'OK',
-		'detail': 'Logout works'
-    }
-
-	resp = jsonify(message)
-	resp.status_code = 200
+@app.route('/logs', methods=['GET'])
+def users():
+	logs = db.log.find()
+	resp = dumps(logs)
 	return resp
-		
+
 
 @app.route('/status/app', methods=['GET'])
 def index():
@@ -100,18 +77,6 @@ def not_found(error=None):
     resp.status_code = 404
 
     return resp
-
-
-def log(email, action):
-	body = {
-		"timestamp": datetime.now(),
-		"email": email,
-		"action": action
-	}
-
-	print(body)
-
-	requests.post("http://log:5003/logs", data=body)
 
 
 if __name__ == "__main__":

@@ -1,9 +1,11 @@
 import os
+import requests
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from flask import jsonify, flash, request, Flask
 from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -19,11 +21,23 @@ def add_user():
 	_name = _json['name']
 	_email = _json['email']
 	_password = _json['pwd']
+
+	if db.user.find_one({'email': _email}) != None:
+		message = {
+			'status': 400,
+			'message': 'Bad Request',
+			'detail': 'Usuário já existe.'
+		}
+
+		resp = jsonify(message)
+		resp.status_code = 200
+		return resp
+
 	# validate the received values
 	if _name and _email and _password and request.method == 'POST':
 		# save details
 		id = db.user.insert({'name': _name, 'email': _email, 'pwd': _password})
-		resp = jsonify({'_id': str(id), 'name': _name, 'email': _email, 'pwd': _password})
+		resp = jsonify({'_id': id, 'name': _name, 'email': _email, 'pwd': _password})
 		resp.status_code = 201
 		return resp
 	else:

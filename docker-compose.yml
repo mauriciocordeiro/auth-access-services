@@ -1,8 +1,8 @@
 version: '3.7'
 services:
-  mongodb:
+  mongo:
     image: mongo:latest
-    container_name: mongo-auth
+    container_name: db
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo
       MONGO_INITDB_ROOT_PASSWORD: mongopwd
@@ -19,7 +19,7 @@ services:
       MONGODB_DATABASE: users
       MONGODB_USERNAME: mongo
       MONGODB_PASSWORD: mongopwd
-      MONGODB_HOSTNAME: mongo-auth
+      MONGODB_HOSTNAME: db
     networks:
       - net
     ports:
@@ -31,11 +31,23 @@ services:
       MONGODB_DATABASE: users
       MONGODB_USERNAME: mongo
       MONGODB_PASSWORD: mongopwd
-      MONGODB_HOSTNAME: mongo-auth
+      MONGODB_HOSTNAME: db
     networks:
       - net
     ports:
       - 5002:5002
+  log:
+    container_name: log
+    build: ./service-log
+    environment:
+      MONGODB_DATABASE: users
+      MONGODB_USERNAME: mongo
+      MONGODB_PASSWORD: mongopwd
+      MONGODB_HOSTNAME: db
+    networks:
+      - net
+    ports:
+      - 5003:5003
 networks:
   net:
 volumes: 
