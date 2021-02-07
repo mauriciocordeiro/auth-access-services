@@ -69,18 +69,6 @@ def delete_user(id):
 	return resp
 
 
-# @app.route('/', methods=['GET'])
-# def index():
-# 	message = {
-#         'status': 200,
-#         'message': 'OK',
-#     }
-
-# 	resp = jsonify(message)
-# 	resp.status_code = 200
-# 	return resp
-
-
 @app.route('/status/app', methods=['GET'])
 def index():
 	message = {
