@@ -2,5 +2,7 @@
     window.env = window.env || {};
 
     // Environment variables
-    window["env"]["api"] = "${protocol}";
+    window["env"]["urlAuth"] = "${urlAuth}";
+    window["env"]["urlCrud"] = "${urlCrud}";
+    window["env"]["urlLog"] = "${urlLog}";
 })(this);

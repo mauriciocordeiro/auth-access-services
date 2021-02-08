@@ -1,4 +1,7 @@
 export const environment = {
   production: false,
-  api: window["env"]["api"],
+
+  urlAuth: window["env"]["urlAuth"],
+  urlCrud: window["env"]["urlCrud"],
+  urlLog: window["env"]["urlLog"],
 };

@@ -8,7 +8,7 @@ import { Credencial } from '../model/credencial';
 import { Autorizacao } from '../model/autorizacao';
 
 const jwtHelper = new JwtHelperService();
-const API = environment.api;
+const API = environment.urlAuth;
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   public login(credencial: Credencial) : Observable<Autorizacao> {
-    return this.http.post<any>(API+'/auth', credencial);
+    return this.http.post<any>(API+'/login', credencial);
   }
 
   public isLoggedIn(){
