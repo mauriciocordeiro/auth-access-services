@@ -51,10 +51,6 @@ services:
   front:
     container_name: front
     build: ./service-front
-    environment: 
-      crudUrl: "http://crud:5001/" 
-      authUrl: "http://auth:5002/" 
-      logUrl: "http://log:5003/"
     networks:
       - net
     ports:
