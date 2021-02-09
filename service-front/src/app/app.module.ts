@@ -22,6 +22,7 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { BreadcrumbModule } from 'xng-breadcrumb';
 import { UserComponent } from './components/user/user.component';
 import { UserFormComponent } from './components/user/user-form/user-form.component';
+import { LogComponent } from './components/log/log.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { UserFormComponent } from './components/user/user-form/user-form.compone
     LoaderComponent,
     UserComponent, 
     UserFormComponent,
+    LogComponent
   ],
   imports: [
     BrowserModule,

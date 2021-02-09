@@ -2,7 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Log } from '../model/log';
 import { User } from '../model/user';
+import { LogService } from './log.service';
 
 const API = environment.urlCrud;
 
@@ -11,7 +13,7 @@ const API = environment.urlCrud;
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private log:LogService) { }
 
   public create(user:User) : Observable<User> {
     return this.http.post<User>(`${API}/users`, user);

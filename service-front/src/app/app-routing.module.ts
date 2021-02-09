@@ -8,8 +8,10 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { breadcrumb: { skip: true } } },
   { path: 'home', loadChildren: () => import('./components/home/home.module')
     .then(module => module.HomeModule), data: { breadcrumb: 'Home' } },
-    { path: 'user', loadChildren: () => import('./components/user/user.module')
-      .then(module => module.UserModule), data: { breadcrumb: 'User' } },
+  { path: 'user', loadChildren: () => import('./components/user/user.module')
+    .then(module => module.UserModule), data: { breadcrumb: 'User' } },
+  { path: 'log', loadChildren: () => import('./components/log/log.module')
+    .then(module => module.LogModule), data: { breadcrumb: 'Logs' } },
   { path: '**', redirectTo: '404' },
   { path: '404', component: NotFoundComponent }
 ];
