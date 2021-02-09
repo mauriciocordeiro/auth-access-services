@@ -23,6 +23,8 @@ def add_user():
 	_email = _json['email']
 	_password = _json['pwd']
 
+	log(_email, 'POST /users')
+
 	if db.user.find_one({'email': _email}) != None:
 		message = {
 			'status': 400,
@@ -49,6 +51,9 @@ def add_user():
 def users():
 	users = db.user.find()
 	resp = dumps(users)
+
+	log('---', 'GET /users')
+
 	return resp
 
 
@@ -56,6 +61,9 @@ def users():
 def user(id):
 	user = db.user.find_one({'_id': ObjectId(id)})
 	resp = dumps(user)
+
+	log('---', 'GET /users/'+id)
+
 	return resp
 
 
@@ -65,7 +73,10 @@ def update_user(id):
 	_id = id
 	_name = _json['name']
 	_email = _json['email']
-	_password = _json['pwd']		
+	_password = _json['pwd']	
+
+	log('---', 'PUT /users/'+id)
+
 	# validate the received values
 	if _name and _email and _password and _id and request.method == 'PUT':
 		# save edits
@@ -82,6 +93,9 @@ def delete_user(id):
 	db.user.delete_one({'_id': ObjectId(id)})
 	resp = jsonify('User deleted successfully!')
 	resp.status_code = 200
+
+	log('---', 'DELETE /users/'+id)
+
 	return resp
 
 
@@ -127,6 +141,12 @@ def not_found(error=None):
     resp.status_code = 404
 
     return resp
+
+
+def log(email, action):
+	payload = dict(email=email, timestamp=datetime.now(), action=action)
+	print(payload)
+	return requests.post("http://log:5003/logs", data=payload)
 
 
 if __name__ == "__main__":
