@@ -1,0 +1,37 @@
+<div class="main" fxLayoutAlign="center start">
+    <mat-card fxFlex.xs="100" fxFlex="75">
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">            
+            <mat-card-content class="form-content" fxLayout="column">
+                <div fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px">
+                    <mat-form-field fxFlex appearance="fill">
+                        <mat-label>E-mail</mat-label>
+                        <input matInput type="email" maxlength="255" formControlName="email">
+                    </mat-form-field>
+                </div>
+                <div fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px">
+                    <mat-form-field fxFlex appearance="fill">
+                        <mat-label>Name</mat-label>
+                        <input matInput type="text" maxlength="255" formControlName="name" required>
+                    </mat-form-field>
+                </div>
+                <div fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px">
+                    <mat-form-field fxFlex appearance="fill">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" maxlength="255" formControlName="pwd" required>
+                    </mat-form-field>
+                    <mat-form-field fxFlex appearance="fill">
+                        <mat-label>Confirm the password</mat-label>
+                        <input matInput type="password" maxlength="255" formControlName="valPwd" required>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="end end">
+                <button mat-button color="accent" type="button" [routerLink]="['/user']">Back</button>
+                <button mat-raised-button color="primary" type="submit">
+                    <mat-icon>save</mat-icon>
+                    <span style="padding-left: 10px;">Save</span>
+                </button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+</div>

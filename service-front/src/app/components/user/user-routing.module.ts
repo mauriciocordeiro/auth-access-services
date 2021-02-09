@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { UserFormComponent } from './user-form/user-form.component';
 import { UserComponent } from './user.component';
 
 
 const routes: Routes = [
   { path: '', component: UserComponent },
-  //{ path: 'usuario', component: UsuarioDetailComponent, canActivate: [AuthGuard], data: { breadcrumb: 'Usuário' } },
-  //{ path: 'usuario/:id', component: UsuarioDetailComponent, canActivate: [AuthGuard], data: { breadcrumb: 'Usuário' } }
+  { path: 'new', component: UserFormComponent, data: { breadcrumb: 'New' } },
+  { path: 'edit/:id', component: UserFormComponent, data: { breadcrumb: 'Edit' } }
 ];
 
 

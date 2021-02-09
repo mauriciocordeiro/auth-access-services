@@ -20,6 +20,8 @@ import { LoaderComponent } from './components/shared/loader/loader.component';
 import { LoaderService } from './core/services/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { BreadcrumbModule } from 'xng-breadcrumb';
+import { UserComponent } from './components/user/user.component';
+import { UserFormComponent } from './components/user/user-form/user-form.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
     HomeComponent,
     NotFoundComponent,
     LoaderComponent,
+    UserComponent, 
+    UserFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +39,8 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
     BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
-    FormsModule, ReactiveFormsModule,
+    FormsModule, 
+    ReactiveFormsModule,
     HttpClientModule,
 
     BreadcrumbModule,

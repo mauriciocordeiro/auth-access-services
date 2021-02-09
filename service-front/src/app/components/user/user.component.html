@@ -1,7 +1,30 @@
-<div class="main" fxFlex fxLayoutAlign="center center">
-    <mat-card>
-        <mat-card-content fxLayout="column" fxLayoutAlign="space-between stretch" >
-            <span>list of users</span>
+<div class="main" fxFlex fxLayoutAlign="start start">
+    <mat-card fxFlex>
+        <mat-card-content fxFlex>
+            <table mat-table [dataSource]="users" fxFlex>
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                    <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </th>
+                    <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+                </ng-container>
+                <ng-container matColumnDef="menu">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let user">
+                        <button mat-icon-button [routerLink]="['/user/edit', user._id.$oid]">
+                            <mat-icon color="accent">edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns; let user;" [routerLink]="['/user/edit', user._id.$oid]"></tr>
+            </table>
         </mat-card-content>
     </mat-card>
+    <button id="add-button" mat-fab color="primary" [routerLink]="['/user/new']">
+        <mat-icon>add</mat-icon>
+    </button>
 </div>

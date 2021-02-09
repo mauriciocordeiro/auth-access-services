@@ -38,7 +38,7 @@ def add_user():
 	if _name and _email and _password and request.method == 'POST':
 		# save details
 		id = db.user.insert({'name': _name, 'email': _email, 'pwd': _password})
-		resp = jsonify({'_id': id, 'name': _name, 'email': _email, 'pwd': _password})
+		resp = jsonify({'_id': str(id), 'name': _name, 'email': _email, 'pwd': _password})
 		resp.status_code = 201
 		return resp
 	else:
@@ -62,6 +62,7 @@ def user(id):
 @app.route('/users/<id>', methods=['PUT'])
 def update_user(id):
 	_json = request.json
+	_id = id
 	_name = _json['name']
 	_email = _json['email']
 	_password = _json['pwd']		

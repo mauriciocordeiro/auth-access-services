@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   }
 
   new() {
-    this.router.navigateByUrl('/user');
+    this.router.navigateByUrl('/user/new');
   }
 
   login() {
