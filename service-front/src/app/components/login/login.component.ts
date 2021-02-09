@@ -22,13 +22,14 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   ngOnInit(): void {
-    if(this.authService.isLoggedIn())
-      this.router.navigateByUrl('/home');
-
     this.loginForm = new FormGroup({
-      user: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+      email: new FormControl('', [Validators.required]),
+      pwd: new FormControl('', [Validators.required])
     });
+  }
+
+  new() {
+    this.router.navigateByUrl('/user');
   }
 
   login() {
@@ -38,8 +39,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.authService.login(this.loginForm.value).subscribe(
-      autorizacao => {
-        this.authService.setAutorizacao(autorizacao);
+      auth => {
         this.router.navigateByUrl('/home');
       },
       err => {

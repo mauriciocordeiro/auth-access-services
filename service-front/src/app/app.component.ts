@@ -11,11 +11,11 @@ import { LoaderService } from './core/services/loader.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ChatBot';
+  title = 'Auth';
   isDarkTheme: Observable<boolean>;
   isDark = false;
 
-  isLoggedIn = false;
+  isLoggedIn = true;
 
   isLoading: Subject<boolean> = this.loaderService.isLoading;
 
@@ -32,9 +32,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.isDarkTheme = this.themeService.isDarkTheme;
-    
-    this.isLoggedIn = this.authService.isLoggedIn();
-    
+        
   }
 
   ngAfterViewInit() {
@@ -51,7 +49,6 @@ export class AppComponent {
   }
 
   toggleSidenav() {
-    this.isLoggedIn = this.authService.isLoggedIn();
     this.drawer.toggle();
   }
 }

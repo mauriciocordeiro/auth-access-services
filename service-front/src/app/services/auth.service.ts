@@ -20,32 +20,9 @@ export class AuthService {
   public login(credencial: Credencial) : Observable<Autorizacao> {
     return this.http.post<any>(API+'/login', credencial);
   }
-
-  public isLoggedIn(){
-    let token = this.getToken();
-    return token !== null;
-  }
-
-  public isTokenValid(): boolean {
-    return this.getToken()!==null && !jwtHelper.isTokenExpired(this.getToken());
-  }
-
-  public getToken(): string {
-    if(this.getAutorizacao())
-      return this.getAutorizacao().token
-    return null;
-  }
-
-  public getAutorizacao(): Autorizacao {
-    return JSON.parse(sessionStorage.getItem('autorizacao'));
-  }
-
-  public setAutorizacao(autorizacao:Autorizacao) {
-    sessionStorage.setItem('autorizacao', JSON.stringify(autorizacao));
-  }
+ 
 
   public logout(){
-    sessionStorage.removeItem('autorizacao');
     this.router.navigateByUrl('login');
   }
 

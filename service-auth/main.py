@@ -3,13 +3,14 @@ import requests
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from flask import jsonify, flash, request, Flask
+from flask_cors import CORS
 from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
 from datetime import datetime
 
 
 app = Flask(__name__)
-
+CORS(app)
 
 client = MongoClient('mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.environ['MONGODB_PASSWORD'] + '@' + os.environ['MONGODB_HOSTNAME'] + ':27017/' + os.environ['MONGODB_DATABASE'], authSource="admin")
 db = client[os.environ['MONGODB_DATABASE']]
