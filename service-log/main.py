@@ -31,7 +31,7 @@ def add_log():
 
 @app.route('/logs', methods=['GET'])
 def users():
-	logs = db.log.find()
+	logs = db.log.find().sort("timestamp", -1)
 	resp = dumps(logs)
 	return resp
 

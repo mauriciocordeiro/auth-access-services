@@ -54,7 +54,7 @@ export class UserFormComponent implements OnInit {
         this.snack.success('User created successfully.');
         this.router.navigateByUrl('user');
       },
-      err => {        
+      err => {               
         let error = err.error;
         this.snack.error(error.message, error.status);
       }
@@ -68,7 +68,7 @@ export class UserFormComponent implements OnInit {
         this.snack.success('User updated successfully.');
         this.router.navigateByUrl('user');
       },
-      err => {        
+      err => {       
         let error = err.error;
         this.snack.error(error.message, error.status);
       }

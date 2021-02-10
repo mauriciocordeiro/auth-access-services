@@ -33,10 +33,12 @@ def login():
 	user = db.user.find_one({'email': _email, 'pwd': _password})
 
 	if user != None:
+		user.update({'_id':str(user.get("_id"))})
+		user.update({'pwd':''})
 		message = {
 			'status': 200,
-			'message': 'Ok',
-			'detail': 'Login efetuado.'
+			'message': 'Logged in',
+			'detail': str(user).replace("'", "\"")
 		}	
 		status = 200
 

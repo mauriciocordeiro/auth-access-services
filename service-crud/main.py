@@ -24,32 +24,25 @@ def add_user():
 	_password = _json['pwd']
 
 	if db.user.find_one({'email': _email}) != None:
-		message = {
-			'status': 400,
-			'message': 'Bad Request',
-			'detail': 'Usuário já existe.'
-		}
-
-		resp = jsonify(message)
-		resp.status_code = 200
-		return resp
-
-	log(_email, 'User CREATED')
-
+		return bad_request('User already exists')
+	
 	# validate the received values
 	if _name and _email and _password and request.method == 'POST':
 		# save details
 		id = db.user.insert({'name': _name, 'email': _email, 'pwd': _password})
+		log(_email, 'User CREATED')
 		resp = jsonify({'_id': str(id), 'name': _name, 'email': _email, 'pwd': _password})
 		resp.status_code = 201
 		return resp
 	else:
 		return not_found()
+
+		
 		
 
 @app.route('/users', methods=['GET'])
 def users():
-	users = db.user.find()
+	users = db.user.find().sort("name", 1)
 	resp = dumps(users)
 
 	# log('---', 'GET /users')
@@ -75,7 +68,7 @@ def update_user(id):
 	_email = _json['email']
 	_password = _json['pwd']	
 
-	log('_email', 'User UPDATED')
+	log(_email, 'User UPDATED')
 
 	# validate the received values
 	if _name and _email and _password and _id and request.method == 'PUT':
@@ -141,6 +134,19 @@ def not_found(error=None):
     }
     resp = jsonify(message)
     resp.status_code = 404
+
+    return resp
+
+
+@app.errorhandler(400)
+def bad_request(error=None):
+    message = {
+        'status': 400,
+        'message': error,
+		'detail': 'Bad Request'
+    }
+    resp = jsonify(message)
+    resp.status_code = 400
 
     return resp
 
