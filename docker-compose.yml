@@ -48,13 +48,13 @@ services:
       - net
     ports:
       - 5003:5003
-  # front:
-  #   container_name: front
-  #   build: ./service-front
-  #   networks:
-  #     - net
-  #   ports:
-  #     - 3000:3000
+  front:
+    container_name: front
+    build: ./service-front
+    networks:
+      - net
+    ports:
+      - 3000:3000
 networks:
   net:
 volumes: 
