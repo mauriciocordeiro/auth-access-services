@@ -5,7 +5,7 @@ import { UserFormComponent } from './user-form.component';
 
 
 const routes: Routes = [
-  { path: '', component: UserFormComponent, canActivate: [AuthGuard] },];
+  { path: '', component: UserFormComponent },];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
