@@ -23,6 +23,8 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
 import { UserComponent } from './components/user/user.component';
 import { UserFormComponent } from './components/user/user-form/user-form.component';
 import { LogComponent } from './components/log/log.component';
+import { GravatarModule } from 'ngx-gravatar';
+import { StatusComponent } from './components/status/status.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { LogComponent } from './components/log/log.component';
     LoaderComponent,
     UserComponent, 
     UserFormComponent,
-    LogComponent
+    LogComponent,
+    StatusComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { LogComponent } from './components/log/log.component';
     FormsModule, 
     ReactiveFormsModule,
     HttpClientModule,
-
+    
+    GravatarModule,
     BreadcrumbModule,
     
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })

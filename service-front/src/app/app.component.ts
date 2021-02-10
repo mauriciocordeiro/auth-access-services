@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { ThemeService } from './core/services/theme.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { LoaderService } from './core/services/loader.service';
+import { User } from './model/user';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ export class AppComponent {
   isDarkTheme: Observable<boolean>;
   isDark = false;
 
-  isLoggedIn = true;
+  user: User;
+  isLoggedIn = false;
 
   isLoading: Subject<boolean> = this.loaderService.isLoading;
 
@@ -33,6 +35,11 @@ export class AppComponent {
   ngOnInit(): void {
     this.isDarkTheme = this.themeService.isDarkTheme;
         
+    if(this.authService.getUser()) {
+      this.user = this.authService.getUser();
+    }
+    
+    this.isLoggedIn = this.authService.isLoggedIn();
   }
 
   ngAfterViewInit() {
@@ -49,6 +56,11 @@ export class AppComponent {
   }
 
   toggleSidenav() {
+    if(this.authService.getUser()) {
+      this.user = this.authService.getUser();
+    }
+    
+    this.isLoggedIn = this.authService.isLoggedIn();
     this.drawer.toggle();
   }
 }

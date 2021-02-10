@@ -1,0 +1,22 @@
+<div class="main" fxFlex fxLayoutAlign="center center" fxLayout="column" fxLayoutGap="10px">
+    <mat-card *ngFor="let status of list;">
+        <mat-card-title>
+            <h3>{{ status.service }}</h3>
+            <mat-divider></mat-divider>
+            <br>
+        </mat-card-title>
+        <mat-card-content fxLayout="column" fxLayoutGap="10px">
+            <div fxFlex fxLayout="row" fxLayoutGap="10px">
+                <span>App:&nbsp;</span>
+                <span>{{ status.app }}</span>
+            </div>
+            <div fxFlex fxLayout="row" fxLayoutGap="10px">
+                <span>Database:&nbsp;</span>
+                <span>{{ status.db }}</span>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <button id="add-button" mat-fab color="primary" (click)=load()>
+        <mat-icon>refresh</mat-icon>
+    </button>
+</div>

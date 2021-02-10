@@ -52,8 +52,13 @@ def index():
 @app.route('/status/db', methods=['GET'])
 def status_db():
 	try: 
-		info = client.server_info()
-		resp = jsonify(info)
+		message = {
+			'status': 200,
+			'message': 'Ok',
+			'detail': str(client.server_info())
+		}
+
+		resp = jsonify(message)
 		resp.status_code = 200
 		return resp
 	except ServerSelectionTimeoutError as err:
@@ -76,6 +81,18 @@ def not_found(error=None):
     }
     resp = jsonify(message)
     resp.status_code = 404
+
+    return resp
+
+
+@app.errorhandler(500)
+def nternal_server_error(error=None):
+    message = {
+        'status': 500,
+        'message': 'Internal Server Error' + request.url,
+    }
+    resp = jsonify(message)
+    resp.status_code = 500
 
     return resp
 

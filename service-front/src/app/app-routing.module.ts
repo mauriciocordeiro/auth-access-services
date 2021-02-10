@@ -12,6 +12,8 @@ const routes: Routes = [
     .then(module => module.UserModule), data: { breadcrumb: 'User' } },
   { path: 'log', loadChildren: () => import('./components/log/log.module')
     .then(module => module.LogModule), data: { breadcrumb: 'Logs' } },
+  { path: 'status', loadChildren: () => import('./components/status/status.module')
+    .then(module => module.StatusModule), data: { breadcrumb: 'Status' } },
   { path: '**', redirectTo: '404' },
   { path: '404', component: NotFoundComponent }
 ];

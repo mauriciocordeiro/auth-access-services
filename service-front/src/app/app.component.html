@@ -15,6 +15,17 @@
         </mat-toolbar>
         <mat-drawer-container class="drawer-container" autosize>
             <mat-drawer #drawer class="drawer-sidenav" mode="over">
+                <mat-list *ngIf="isLoggedIn">
+                    <mat-list-item>
+                        <img ngxGravatar mat-list-icon [email]="user.email" />
+                        <div mat-line><strong>{{ user.name }}</strong></div>
+                        <div mat-line><i>{{ user.email }}</i></div>
+                        <!-- <button mat-icon-button matTooltip="Abrir perfil" (click)="toggleSidenav()">
+                            <mat-icon color="accent">notifications</mat-icon>
+                        </button> -->
+                    </mat-list-item>
+                </mat-list>
+                <mat-divider></mat-divider>
                 <mat-nav-list>
                     <a mat-list-item routerLink="home" (click)="toggleSidenav()">
                         <mat-icon color="accent">home</mat-icon>
@@ -27,6 +38,10 @@
                     <a mat-list-item routerLink="log" (click)="toggleSidenav()">
                         <mat-icon color="accent">receipt</mat-icon>
                         <span>Logs</span>
+                    </a>
+                    <a mat-list-item routerLink="status" (click)="toggleSidenav()">
+                        <mat-icon color="accent">report_gmailerrorred</mat-icon>
+                        <span>Status</span>
                     </a>
                 </mat-nav-list>                
                 <mat-divider></mat-divider>

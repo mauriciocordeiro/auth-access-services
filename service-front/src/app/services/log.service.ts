@@ -20,4 +20,12 @@ export class LogService {
   readAll(): Observable<Array<Log>> {
     return this.http.get<Array<Log>>(`${API}/logs`);
   }
+
+  public satusApp(): Observable<any> {
+    return this.http.get<any>(`${API}/status/app`);
+  }
+  
+  public satusDb(): Observable<any> {
+    return this.http.get<any>(`${API}/status/db`);
+  }
 }

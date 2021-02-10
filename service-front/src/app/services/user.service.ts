@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Log } from '../model/log';
 import { User } from '../model/user';
 import { LogService } from './log.service';
 
@@ -29,5 +28,13 @@ export class UserService {
 
   public update(user:User) : Observable<User> {
     return this.http.put<User>(`${API}/users/${user._id}`, user);
+  }
+
+  public satusApp(): Observable<any> {
+    return this.http.get<any>(`${API}/status/app`);
+  }
+  
+  public satusDb(): Observable<any> {
+    return this.http.get<any>(`${API}/status/db`);
   }
 }

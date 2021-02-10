@@ -3,11 +3,9 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
-import { JwtHelperService } from "@auth0/angular-jwt";
 import { Credencial } from '../model/credencial';
 import { User } from '../model/user';
 
-const jwtHelper = new JwtHelperService();
 const API = environment.urlAuth;
 
 @Injectable({
@@ -18,12 +16,21 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   public login(credencial: Credencial) : Observable<any> {
-    return this.http.post<any>(API+'/login', credencial);
+    return this.http.post<any>(`${API}/login`, credencial);
   }
  
   public logout(){
-    this.http.post<any>(API+'/logout', this.getUser());
-    this.router.navigateByUrl('login');
+    this.http.post<any>(`${API}/logout`, this.getUser());
+    sessionStorage.clear();
+    this.router.navigateByUrl('');
+  }
+
+  public satusApp(): Observable<any> {
+    return this.http.get<any>(`${API}/status/app`);
+  }
+  
+  public satusDb(): Observable<any> {
+    return this.http.get<any>(`${API}/status/db`);
   }
 
   public setUser(user) {
