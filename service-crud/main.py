@@ -23,8 +23,6 @@ def add_user():
 	_email = _json['email']
 	_password = _json['pwd']
 
-	log(_email, 'POST /users')
-
 	if db.user.find_one({'email': _email}) != None:
 		message = {
 			'status': 400,
@@ -35,6 +33,8 @@ def add_user():
 		resp = jsonify(message)
 		resp.status_code = 200
 		return resp
+
+	log(_email, 'User CREATED')
 
 	# validate the received values
 	if _name and _email and _password and request.method == 'POST':
@@ -52,7 +52,7 @@ def users():
 	users = db.user.find()
 	resp = dumps(users)
 
-	log('---', 'GET /users')
+	# log('---', 'GET /users')
 
 	return resp
 
@@ -62,7 +62,7 @@ def user(id):
 	user = db.user.find_one({'_id': ObjectId(id)})
 	resp = dumps(user)
 
-	log('---', 'GET /users/'+id)
+	# log('---', 'GET /users/'+id)
 
 	return resp
 
@@ -75,7 +75,7 @@ def update_user(id):
 	_email = _json['email']
 	_password = _json['pwd']	
 
-	log('---', 'PUT /users/'+id)
+	log('_email', 'User UPDATED')
 
 	# validate the received values
 	if _name and _email and _password and _id and request.method == 'PUT':
@@ -90,11 +90,13 @@ def update_user(id):
 
 @app.route('/users/<id>', methods=['DELETE'])
 def delete_user(id):
+	user = db.user.find_one({'_id': ObjectId(id)})
+
 	db.user.delete_one({'_id': ObjectId(id)})
 	resp = jsonify('User deleted successfully!')
 	resp.status_code = 200
 
-	log('---', 'DELETE /users/'+id)
+	log(user.email, 'User DELETED')
 
 	return resp
 
@@ -144,9 +146,13 @@ def not_found(error=None):
 
 
 def log(email, action):
-	payload = dict(email=email, timestamp=datetime.now(), action=action)
-	print(payload)
-	return requests.post("http://log:5003/logs", data=payload)
+	payload = {
+		'timestamp': datetime.now().isoformat(),
+		'email': email,
+		'action': action
+	}
+
+	requests.post("http://log:5003/logs", json=payload)
 
 
 if __name__ == "__main__":

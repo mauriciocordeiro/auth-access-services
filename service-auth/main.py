@@ -12,6 +12,7 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app)
 
+
 client = MongoClient('mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.environ['MONGODB_PASSWORD'] + '@' + os.environ['MONGODB_HOSTNAME'] + ':27017/' + os.environ['MONGODB_DATABASE'], authSource="admin")
 db = client[os.environ['MONGODB_DATABASE']]
 
@@ -39,7 +40,7 @@ def login():
 		}	
 		status = 200
 
-	log(_email, 'POST /login')
+	log(_email, 'User LOGGED IN')
 
 	resp = jsonify(message)
 	resp.status_code = status
@@ -48,11 +49,16 @@ def login():
 
 @app.route('/logout', methods=['POST'])
 def logout():
+	_json = request.json
+	_email = _json['email']
+
 	message = {
         'status': 200,
         'message': 'OK',
-		'detail': 'Logout works'
+		'detail': 'Logout'
     }
+
+	log(_email, 'User LOGGED OUT')
 
 	resp = jsonify(message)
 	resp.status_code = 200
