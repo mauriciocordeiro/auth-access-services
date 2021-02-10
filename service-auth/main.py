@@ -39,7 +39,7 @@ def login():
 		}	
 		status = 200
 
-	log(_email, 'GET /login')
+	log(_email, 'POST /login')
 
 	resp = jsonify(message)
 	resp.status_code = status
@@ -104,15 +104,13 @@ def not_found(error=None):
 
 
 def log(email, action):
-	body = {
-		"timestamp": datetime.now(),
-		"email": email,
-		"action": action
+	payload = {
+		'timestamp': datetime.now().isoformat(),
+		'email': email,
+		'action': action
 	}
 
-	print(body)
-
-	requests.post("http://log:5003/logs", data=body)
+	requests.post("http://log:5003/logs", json=payload)
 
 
 if __name__ == "__main__":
