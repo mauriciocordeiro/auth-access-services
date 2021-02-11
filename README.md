@@ -15,6 +15,20 @@ Sistema de autorização baseado em microsserviços. Deve automatizar as seguint
 
 ## Arquitetura
 
+O sistema está distribuído em 5 contêiners docker, sendo
+
+* Banco de dados (MongoDB)
+
+* _Backend_ CRUD (Python)
+
+* _Backend_ de autenticação (Python)
+
+* _Backend_ de logs (Python)
+
+* _Frontend_ (Angular 9)
+
+Onde o banco de dados é acessado por todos os microsserviços de _backend_; o _backend_ de logs é acessado pelos outros dois _backends_, a fim de registrar eventos do sistema; e o _frontend_ acessa os 3 _backends_, a fim de persistir e consumir dados.
+
 ![](docs/diagram.png)
 
 
@@ -48,3 +62,7 @@ docker-compose up -d --build
 ### _Log_
 
 [localhost:5003](http://localhost:5003)
+
+### _MongoDB_
+
+[localhost:27017](localhost:27017)
