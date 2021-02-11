@@ -7,7 +7,7 @@ import { UserComponent } from './user.component';
 
 const routes: Routes = [
   { path: '', component: UserComponent, canActivate: [AuthGuard] },
-  { path: 'new', component: UserFormComponent, canActivate: [AuthGuard], data: { breadcrumb: 'New' } },
+  { path: 'new', component: UserFormComponent, data: { breadcrumb: 'New' } },
   { path: 'edit/:id', component: UserFormComponent, canActivate: [AuthGuard], data: { breadcrumb: 'Edit' } }
 ];
 
