@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackBarService } from 'src/app/core/services/snackbar.service';
 import { User } from 'src/app/model/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class UserFormComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute, 
     private userService: UserService,     
+    private authService:AuthService,
     private router: Router,
     private snack:SnackBarService) { }
 
@@ -52,7 +54,12 @@ export class UserFormComponent implements OnInit {
       user => {
         this.formGroup = this.build(user);
         this.snack.success('User created successfully.');
-        this.router.navigateByUrl('user');
+
+        if(this.authService.getUser())
+          this.router.navigateByUrl('user');
+        else
+          this.router.navigateByUrl('login');
+
       },
       err => {               
         let error = err.error;
