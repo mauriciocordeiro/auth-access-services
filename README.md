@@ -15,6 +15,7 @@ Sistema de autorização baseado em microsserviços. Deve automatizar as seguint
 
 ## Arquitetura
 
+![](docs/diagrama.png)
 
 
 ## Execução
