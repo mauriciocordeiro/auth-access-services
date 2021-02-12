@@ -8,5 +8,4 @@ RUN pip3 install requests
 RUN pip3 install -U flask-cors
 COPY ["main.py", "/app"]
 EXPOSE 5001
-# CMD ["python3", "main.py"]
 CMD ["gunicorn", "-w 4", "-b", "0.0.0.0:5001", "main:app"]
